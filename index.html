@@ -10,8 +10,9 @@
             --text-main: #f4f6f9;
             --accent-pink: #ffafcc;
             --accent-mint: #b5e2fa;
-            --text-muted: #a5a5a5;
-            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-muted: #8a99ad;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --border-color: rgba(255, 255, 255, 0.08);
             --transition-speed: 0.5s;
         }
 
@@ -31,6 +32,7 @@
             user-select: none;
         }
 
+        /* Khung trình chiếu chính */
         .presentation-container {
             position: relative;
             width: 100%;
@@ -41,6 +43,61 @@
             cursor: pointer;
         }
 
+        /* Branding - Header cố định ở mọi slide */
+        .brand-header {
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Giả lập Logo Toastmasters chuyên nghiệp bằng SVG hình khối bản quyền */
+        .tm-logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .tm-logo-svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--accent-mint);
+        }
+        .tm-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+        .tm-text span {
+            color: var(--accent-pink);
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+
+        /* Thông tin TTM Master */
+        .tt-master-tag {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            background: var(--card-bg);
+            padding: 6px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            letter-spacing: 0.05em;
+        }
+        .tt-master-tag strong {
+            color: var(--accent-mint);
+        }
+
+        /* Cấu trúc Slide */
         .slide {
             position: absolute;
             top: 0;
@@ -53,7 +110,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px 10%;
+            padding: 100px 12%;
             text-align: center;
             transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
             z-index: 1;
@@ -65,77 +122,87 @@
             z-index: 2;
         }
 
-        /* Slide Content Animations */
+        /* Hệ thống Icon lớn */
+        .category-icon {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1.5rem;
+            fill: var(--accent-mint);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.6s ease 0.1s;
+        }
+        .slide:nth-child(even) .category-icon {
+            fill: var(--accent-pink); /* Đổi màu xen kẽ cho sinh động */
+        }
+
         .slide .category {
             font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 0.25em;
-            color: var(--accent-pink);
-            margin-bottom: 2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
             transform: translateY(20px);
             opacity: 0;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, opacity 0.6s ease 0.2s;
         }
 
         .slide .question {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 700;
             line-height: 1.4;
-            max-width: 900px;
+            max-width: 1000px;
             color: var(--text-main);
             transform: translateY(30px);
             opacity: 0;
             transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, opacity 0.8s ease 0.3s;
         }
 
+        /* Kích hoạt animation khi Slide Active */
+        .slide.active .category-icon {
+            transform: scale(1);
+            opacity: 1;
+        }
         .slide.active .category,
         .slide.active .question {
             transform: translateY(0);
             opacity: 1;
         }
 
-        /* Title Slide Layout */
+        /* Thiết kế riêng cho Slide Đầu & Cuối */
         .slide.title-slide h1 {
-            font-size: 4.5rem;
+            font-size: 5rem;
             font-weight: 800;
             letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--text-main) 30%, var(--accent-mint) 100%);
+            background: linear-gradient(135deg, var(--text-main) 40%, var(--accent-mint) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             transform: scale(0.95);
             opacity: 0;
             transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
         }
 
         .slide.title-slide p {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--accent-pink);
             transform: translateY(20px);
             opacity: 0;
             transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, opacity 0.8s ease 0.2s;
         }
 
-        .slide.active.title-slide h1 {
-            transform: scale(1);
-            opacity: 1;
-        }
+        .slide.active.title-slide h1 { transform: scale(1); opacity: 1; }
+        .slide.active.title-slide p { transform: translateY(0); opacity: 1; }
 
-        .slide.active.title-slide p {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* Footer Elements */
+        /* Footer chứa thông tin điều khiển */
         .controls-footer {
             position: absolute;
             bottom: 40px;
-            left: 0;
-            width: 100%;
+            left: 50px;
+            right: 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 50px;
             z-index: 10;
             pointer-events: none;
         }
@@ -148,39 +215,37 @@
         }
 
         .keyboard-hint {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             background: var(--card-bg);
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
+            border: 1px solid var(--border-color);
             pointer-events: auto;
         }
 
-        .keyboard-hint:hover {
-            opacity: 1;
-        }
-
-        /* Corner accents for premium feel */
+        /* Góc Decor tinh tế */
         .corner-accent {
             position: absolute;
-            width: 12px;
-            height: 12px;
-            border: 2px solid rgba(181, 226, 250, 0.2);
+            width: 16px;
+            height: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             pointer-events: none;
         }
-        .top-left { top: 40px; left: 40px; border-right: none; border-bottom: none; }
-        .top-right { top: 40px; right: 40px; border-left: none; border-bottom: none; }
-        .bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; }
-        .bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; }
+        .top-left { top: 30px; left: 30px; border-right: none; border-bottom: none; }
+        .top-right { top: 30px; right: 30px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 30px; left: 30px; border-right: none; border-top: none; }
+        .bottom-right { bottom: 30px; right: 30px; border-left: none; border-top: none; }
 
+        /* Responsive di động */
         @media (max-width: 768px) {
+            .brand-header { top: 20px; left: 20px; right: 20px; }
+            .tm-text { display: none; }
+            .slide { padding: 80px 6%; }
             .slide .question { font-size: 1.8rem; }
-            .slide.title-slide h1 { font-size: 2.8rem; }
-            .slide.title-slide p { font-size: 1.1rem; }
-            .controls-footer { padding: 0 24px; bottom: 24px; }
+            .slide.title-slide h1 { font-size: 3rem; }
+            .category-icon { width: 70px; height: 70px; }
+            .controls-footer { bottom: 20px; left: 20px; right: 20px; }
             .corner-accent { display: none; }
         }
     </style>
@@ -193,75 +258,107 @@
         <div class="corner-accent bottom-left"></div>
         <div class="corner-accent bottom-right"></div>
 
+        <!-- BRANDING HEADER (Hiển thị xuyên suốt) -->
+        <div class="brand-header">
+            <div class="tm-logo-wrapper">
+                <!-- SVG mô phỏng logo hình cầu/địa cầu đặc trưng Toastmasters -->
+                <svg class="tm-logo-svg" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+                <div class="tm-text">
+                    Saigon
+                    <span>Toastmasters Club</span>
+                </div>
+            </div>
+            <div class="tt-master-tag">Table Topics Master: <strong>Kacey</strong></div>
+        </div>
+
         <!-- Slide 1: Title -->
         <div class="slide title-slide active">
             <h1>Who Can Lead?</h1>
-            <p>Table Topics Session &bull; Saigon Toastmasters Club</p>
+            <p>Welcome to Table Topics Session</p>
         </div>
 
         <!-- Slide 2 -->
         <div class="slide">
-            <div class="category">👶 Children as Leaders</div>
+            <!-- Icon 1: Đứa trẻ làm leader (Face/Child) -->
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M12 2c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l2.79-2.79C10.03 18.26 11 18.5 12 18.5s1.97-.24 2.45-.48l2.79 2.79c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-2.02-2.79C17.26 15.07 18 13.12 18 11c0-4.97-4.03-9-9-9zm0 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+            <div class="category">Children as Leaders</div>
             <div class="question">Have you ever learned an important life lesson from someone younger than you? What did they teach you?</div>
         </div>
 
         <!-- Slide 3 -->
         <div class="slide">
-            <div class="category">👶 Children as Leaders</div>
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M12 2c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l2.79-2.79C10.03 18.26 11 18.5 12 18.5s1.97-.24 2.45-.48l2.79 2.79c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-2.02-2.79C17.26 15.07 18 13.12 18 11c0-4.97-4.03-9-9-9zm0 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+            <div class="category">Children as Leaders</div>
             <div class="question">Has a child ever surprised you by acting wiser than expected? What happened?</div>
         </div>
 
         <!-- Slide 4 -->
         <div class="slide">
-            <div class="category">🤝 Followers Leading Leaders</div>
+            <!-- Icon 2: Khối bắt tay đại diện cho Followers Leading Leaders -->
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M19 15c-1.1 0-2 .9-2 2v3H7v-3c0-1.1-.9-2-2-2s-2 .9-2 2v4c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zM12 3c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm-7 8c-.55 0-1 .45-1 1v2h2v-2c0-.55-.45-1-1-1zm14 0c-.55 0-1 .45-1 1v2h2v-2c0-.55-.45-1-1-1z"/></svg>
+            <div class="category">Followers Leading Leaders</div>
             <div class="question">Tell us about a time when someone with less experience changed your perspective.</div>
         </div>
 
         <!-- Slide 5 -->
         <div class="slide">
-            <div class="category">🤝 Followers Leading Leaders</div>
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M19 15c-1.1 0-2 .9-2 2v3H7v-3c0-1.1-.9-2-2-2s-2 .9-2 2v4c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zM12 3c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm-7 8c-.55 0-1 .45-1 1v2h2v-2c0-.55-.45-1-1-1zm14 0c-.55 0-1 .45-1 1v2h2v-2c0-.55-.45-1-1-1z"/></svg>
+            <div class="category">Followers Leading Leaders</div>
             <div class="question">Do you think a good leader must also be a good follower? Why or why not?</div>
         </div>
 
         <!-- Slide 6 -->
         <div class="slide">
-            <div class="category">❤️ Unexpected Leaders</div>
+            <!-- Icon 3: Trái tim / Tia sét truyền cảm hứng (Unexpected Leaders) -->
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.5 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <div class="category">Unexpected Leaders</div>
             <div class="question">Who is someone that never intended to lead you, but had a strong impact on your life?</div>
         </div>
 
         <!-- Slide 7 -->
         <div class="slide">
-            <div class="category">❤️ Unexpected Leaders</div>
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.5 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <div class="category">Unexpected Leaders</div>
             <div class="question">Tell us about a small moment that changed the way you think or act.</div>
         </div>
 
         <!-- Slide 8 -->
         <div class="slide">
-            <div class="category">😡 Difficult People</div>
+            <!-- Icon 4: Mặt tức giận / Thử thách tư duy (Difficult People) -->
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            <div class="category">Difficult People</div>
             <div class="question">Tell us about a difficult person who taught you a valuable leadership lesson.</div>
         </div>
 
         <!-- Slide 9 -->
         <div class="slide">
-            <div class="category">🌧 Leadership in Crisis</div>
+            <!-- Icon 5: Cơn bão / Khủng hoảng (Leadership in Crisis) -->
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/></svg>
+            <div class="category">Leadership in Crisis</div>
             <div class="question">When things go wrong, what kind of leader do you become?</div>
         </div>
 
         <!-- Slide 10 -->
         <div class="slide">
-            <div class="category">🌧 Leadership in Crisis</div>
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/></svg>
+            <div class="category">Leadership in Crisis</div>
             <div class="question">Tell us about a time you had to step up in a difficult situation.</div>
         </div>
 
         <!-- Slide 11 -->
         <div class="slide">
-            <div class="category">🪞 Leading Yourself</div>
+            <!-- Icon 6: Gương soi nội tâm (Leading Yourself) -->
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+            <div class="category">Leading Yourself</div>
             <div class="question">What is the hardest part of leading yourself?</div>
         </div>
 
         <!-- Slide 12 -->
         <div class="slide">
-            <div class="category">🪞 Leading Yourself</div>
+            <svg class="category-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+            <div class="category">Leading Yourself</div>
             <div class="question">If leadership is influence, how are you influencing others right now?</div>
         </div>
 
@@ -290,15 +387,15 @@
             currentSlideIndex = index;
             slides[currentSlideIndex].classList.add('active');
             
-            // Update bottom layout markers
+            // Cập nhật số slide dạng chuyên nghiệp
             progressIndicator.textContent = `Slide ${currentSlideIndex + 1}/${slides.length}`;
             
             if (currentSlideIndex === 0) {
                 hint.textContent = "Press → or click to start";
             } else if (currentSlideIndex === slides.length - 1) {
-                hint.textContent = "Press ← to go back";
+                hint.textContent = "Thank you! — Press ← to go back";
             } else {
-                hint.textContent = "Use ← / → keys or click";
+                hint.textContent = "Use ← / → keys or click to navigate";
             }
         }
 
@@ -314,7 +411,7 @@
             }
         }
 
-        // Navigation Events
+        // Đón nhận sự kiện bàn phím
         window.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') {
                 nextSlide();
@@ -323,8 +420,8 @@
             }
         });
 
+        // Click chuột vào màn hình để chuyển tiếp
         presentation.addEventListener('click', (e) => {
-            // Prevent navigating if clicking something interactive if added later
             if (e.target.closest('.keyboard-hint')) return;
             nextSlide();
         });
